@@ -4,7 +4,7 @@ import React from "react";
 
 export default function PageOFX() {
   return (
-    <div>
+    <div className="flex justify-end w-full content-end items-end">
       <FileInputForm />
     </div>
   );

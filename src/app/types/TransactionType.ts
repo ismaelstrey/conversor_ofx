@@ -71,3 +71,10 @@ export interface OFXResponse {
     NEWFILEUID: string;
   };
 }
+
+export interface FIType {
+
+  ORG: string;
+  FID: string;
+
+}

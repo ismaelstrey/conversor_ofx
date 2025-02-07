@@ -48,29 +48,24 @@ const FileInputForm = () => {
   const instiruicao = dataOfx?.OFX.SIGNONMSGSRSV1.SONRS.FI;
   console.log(dataOfx)
   return (
-    <div className="flex flex-col gap-4 mt-4">
+    <div className="flex w-full flex-col gap-4 mt-4">
       <div className="flex container m-auto w-full justify-center">
-        <form className="flex gap-4" onSubmit={(e) => handleSubmit(e)}>
-          <label>Selecione o arquivo OFX</label>
+        <form className="flex w-full container gap-4" onSubmit={(e) => handleSubmit(e)}>
+          <label className="text-white">Selecione o arquivo OFX</label>
           <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" type="file" accept=".ofx" onChange={handleFileChange} />
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Enviar</button>
         </form>
       </div>
-      <div>
-        {instiruicao && (
-          <div>
-            <p>ID: {instiruicao.FID}</p>
-            <p>Nome:{instiruicao.ORG}</p>
-          </div>
+      <div className="flex justify-center">
+        {dataOfx && (
+          <Transactions
+            transactions={
+              tansections
+            }
+            FI={instiruicao}
+          />
         )}
       </div>
-      {dataOfx && (
-        <Transactions
-          transactions={
-            tansections
-          }
-        />
-      )}
     </div>
   );
 };
