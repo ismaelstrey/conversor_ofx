@@ -22,15 +22,15 @@ export default function Transactions({
   return (
     <div className="flex flex-col">
       <div className="flex justify-end text-5xl mr-10">Total: {totalValor}</div>
-      <table className="table-auto mt-10 ">
-        <thead>
-          <tr className="bg-gray-500">
-            <th>TIPO</th>
-            <th>DATA</th>
-            <th>VALOR</th>
-            <th>TRNAMT</th>
-            <th>REFNUM</th>
-            <th>MEMORANDO</th>
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr className="text-2xl ">
+            <th scope="col" className="px-6 py-3">TIPO</th>
+            <th scope="col" className="px-6 py-3">DATA</th>
+            <th scope="col" className="px-6 py-3">VALOR</th>
+            <th scope="col" className="px-6 py-3">TRNAMT</th>
+            <th scope="col" className="px-6 py-3">REFNUM</th>
+            <th scope="col" className="px-6 py-3">MEMORANDO</th>
           </tr>
         </thead>
         <tbody>
