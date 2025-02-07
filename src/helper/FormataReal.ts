@@ -13,5 +13,4 @@ export function formatarData(dataStr: string): string {
     return `${dia}/${mes}/${ano} `;
 }
 
-const valor = 39857.28;
-console.log(formatarParaReal(valor)); // "R$ 39.857,28"
+

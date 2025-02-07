@@ -12,9 +12,9 @@ export default function Transactions({
 }) {
 
 
+  const [trntype, setTrntype] = React.useState("CREDIT");
 
-
-  const filtrado = transactions?.filter((transaction) => transaction.TRNTYPE === "CREDIT");
+  const filtrado = transactions?.filter((transaction) => transaction.TRNTYPE === trntype);
   const soma = filtrado?.reduce((acc, transaction) => acc + parseFloat(transaction.TRNAMT), 0);
   const total = formatarParaReal(soma || 0);
   const [totalValor, setTotalValor] = React.useState(total || 0);
