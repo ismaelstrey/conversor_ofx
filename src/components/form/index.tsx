@@ -44,18 +44,27 @@ const FileInputForm = () => {
       }
     }
   };
-  console.log(dataOfx?.OFX);
-
+  const tansections = dataOfx?.OFX.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN;
+  const instiruicao = dataOfx?.OFX.SIGNONMSGSRSV1.SONRS.FI;
+  console.log(dataOfx)
   return (
     <div className="flex flex-col gap-4">
       <form onSubmit={(e) => handleSubmit(e)}>
         <input type="file" accept=".ofx" onChange={handleFileChange} />
         <button type="submit">Enviar</button>
       </form>
+      <div>
+        {instiruicao && (
+          <div>
+            <p>ID: {instiruicao.FID}</p>
+            <p>Nome:{instiruicao.ORG}</p>
+          </div>
+        )}
+      </div>
       {dataOfx && (
         <Transactions
           transactions={
-            dataOfx?.OFX.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN
+            tansections
           }
         />
       )}
