@@ -2,7 +2,6 @@ import { FIType, TransactionType } from "@/app/types/TransactionType";
 import React, { useEffect } from "react";
 import Transaction from "./Transaction";
 import { formatarParaReal } from "@/helper/FormataReal";
-import { tr } from "motion/react-client";
 import { ChevronDownIcon } from "lucide-react";
 
 export default function Transactions({
