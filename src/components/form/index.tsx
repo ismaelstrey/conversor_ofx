@@ -47,7 +47,7 @@ const FileInputForm = () => {
   console.log(dataOfx?.OFX);
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <form onSubmit={(e) => handleSubmit(e)}>
         <input type="file" accept=".ofx" onChange={handleFileChange} />
         <button type="submit">Enviar</button>
