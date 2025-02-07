@@ -13,7 +13,16 @@ const Sidebar = () => {
         setOpenSubmenu(openSubmenu === index ? null : index);
 
     const menuItems = [
-        { title: "Dashboard", submenus: [{ title: "OFX-CREDITO", link: "/page/cadastro" }, { title: "Analytics", link: "/" }] },
+        {
+            title: "Dashboard", submenus: [
+                {
+                    title: "OFX-CREDITO",
+                    link: "/page/cadastro"
+                }, {
+                    title: "Dashboard",
+                    link: "/page/dashboard"
+                }]
+        },
         { title: "Settings", submenus: [{ title: "Profile", link: "/" }, { title: "Security", link: "/" }] },
     ];
 
