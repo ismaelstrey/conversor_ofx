@@ -28,12 +28,12 @@ export default function Transactions({
   const saldoFinal = totalCreditos + totalDebitos; // Soma pois débitos já vêm com valor negativo
 
   const soma = filtrado?.reduce((acc, transaction) => acc + parseFloat(transaction.TRNAMT), 0);
-  const total = formatarParaReal(soma || 0);
-  const [totalValor, setTotalValor] = React.useState(total || 0);
+  const [totalValor, setTotalValor] = React.useState("");
 
   useEffect(() => {
-    setTotalValor(total || 0);
-  }, [total])
+    const formattedTotal = formatarParaReal(soma || 0);
+    setTotalValor(formattedTotal);
+  }, [soma])
 
   useEffect(() => {
     setFiltro(filtrado || []);
