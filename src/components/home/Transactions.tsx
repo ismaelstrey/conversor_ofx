@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaMoneyBillWave, FaChartLine } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { MdAccountBalance } from "react-icons/md";
-import { ExportButtons } from "@/utils/exportData";
+import { ExportButtons } from "@/components/ui/exportData";
 
 export default function Transactions({
   transactions,
