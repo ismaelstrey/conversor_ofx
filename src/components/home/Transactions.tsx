@@ -4,9 +4,10 @@ import React, { useEffect } from "react";
 import Transaction from "./Transaction";
 import { formatarParaReal } from "@/helper/FormataReal";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaMoneyBillWave, FaChartLine } from "react-icons/fa";
+import { FaMoneyBillWave, FaChartLine, FaFileExcel, FaFilePdf } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { MdAccountBalance } from "react-icons/md";
+import { ExportButtons } from "@/utils/exportData";
 
 export default function Transactions({
   transactions,
@@ -43,6 +44,15 @@ export default function Transactions({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-col container max-w-7xl mx-auto p-4 space-y-6">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-gray-200">Extrato Financeiro</h2>
+        {transactions && transactions.length > 0 && (
+          <ExportButtons 
+            data={filtrado || []} 
+            tipo={trntype || 'Completo'} 
+          />
+        )}
+      </div>
       <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-xl shadow-2xl text-gray-200">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {!trntype ? (
