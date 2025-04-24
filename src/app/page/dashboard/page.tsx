@@ -24,6 +24,8 @@ export default function PageOFX() {
   useEffect(() => {
     geraRelatorio()
   }, [])
+
+  console.log(transactions)
   return (
     <div className="flex justify-center w-full">
       <Dashboard transactions={transactions} />

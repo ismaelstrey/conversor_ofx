@@ -9,8 +9,9 @@ export default function Transaction({
 }) {
 
   const data = formatarData(transaction?.DTPOSTED || "");
+  const {TRNTYPE} = transaction || {};
   return (
-    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+    <tr className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 ${TRNTYPE === 'DEBIT' ?"text-red-500":"" }`}>
       <td className="px-6 py-4">{transaction?.TRNTYPE}</td>
       <td>{data}</td>
       <td>{formatarParaReal(parseFloat(transaction?.TRNAMT || "0"))}</td>
