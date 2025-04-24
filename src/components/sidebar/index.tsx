@@ -18,9 +18,6 @@ const Sidebar = () => {
                 {
                     title: "OFX-CREDITO",
                     link: "/page/cadastro"
-                }, {
-                    title: "Dashboard",
-                    link: "/page/dashboard"
                 }]
         },
         { title: "Settings", submenus: [{ title: "Profile", link: "/" }, { title: "Security", link: "/" }] },
