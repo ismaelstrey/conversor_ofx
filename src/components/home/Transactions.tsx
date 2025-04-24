@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import Transaction from "./Transaction";
 import { formatarParaReal } from "@/helper/FormataReal";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaMoneyBillWave, FaChartLine, FaFileExcel, FaFilePdf } from "react-icons/fa";
+import { FaMoneyBillWave, FaChartLine } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { MdAccountBalance } from "react-icons/md";
 import { ExportButtons } from "@/utils/exportData";
