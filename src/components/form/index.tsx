@@ -13,7 +13,7 @@ const FileInputForm = () => {
 
   useEffect(() => {
     setDataOfx(parseOfx);
-  }, []);
+  }, [parseOfx]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];

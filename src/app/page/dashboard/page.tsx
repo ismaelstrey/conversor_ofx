@@ -1,7 +1,7 @@
 "use client";
 import { OFXResponse } from "@/app/types/TransactionType";
 import Dashboard from "@/components/dashboard";
-import { formatarData, formatarDataGrafico } from "@/helper/FormataReal";
+import { formatarDataGrafico } from "@/helper/FormataReal";
 import { ofx } from "@/services/indexDb";
 import React, { useEffect } from "react";
 interface TransactionType {
