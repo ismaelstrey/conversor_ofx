@@ -116,7 +116,7 @@ export default function OfxUploader() {
 
   return (
     <div className="w-full max-w-2xl mx-auto p-6">
-        {/* @ts-expect-error */}
+        {/* @ts-expect-error - Spread props from react-dropzone getRootProps() causes type conflicts with motion.div props */}
       <motion.div
         {...getRootProps()}
         className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
