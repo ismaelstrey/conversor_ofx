@@ -1,7 +1,12 @@
+'use client'
 import { FIType, TransactionType } from "@/app/types/TransactionType";
 import React, { useEffect } from "react";
 import Transaction from "./Transaction";
 import { formatarParaReal } from "@/helper/FormataReal";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaMoneyBillWave, FaChartLine } from "react-icons/fa";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { MdAccountBalance } from "react-icons/md";
 
 export default function Transactions({
   transactions,
@@ -15,51 +20,151 @@ export default function Transactions({
   const [trntype, setTrntype] = React.useState("");
   const [filtro, setFiltro] = React.useState<TransactionType[]>([]);
 
-  const filtrado = trntype ? transactions?.filter((transaction) => transaction.TRNTYPE == trntype) :transactions;
+  const filtrado = trntype ? transactions?.filter((transaction) => transaction.TRNTYPE == trntype) : transactions;
+  
+  // Cálculos financeiros
+  const totalCreditos = transactions?.filter(t => t.TRNTYPE === "CREDIT").reduce((acc, t) => acc + parseFloat(t.TRNAMT), 0) || 0;
+  const totalDebitos = transactions?.filter(t => t.TRNTYPE === "DEBIT").reduce((acc, t) => acc + parseFloat(t.TRNAMT), 0) || 0;
+  const saldoFinal = totalCreditos + totalDebitos; // Soma pois débitos já vêm com valor negativo
+
   const soma = filtrado?.reduce((acc, transaction) => acc + parseFloat(transaction.TRNAMT), 0);
   const total = formatarParaReal(soma || 0);
   const [totalValor, setTotalValor] = React.useState(total || 0);
+
   useEffect(() => {
     setTotalValor(total || 0);
   }, [total])
+
   useEffect(() => {
     setFiltro(filtrado || []);
   }, [filtrado])
-  console.log(filtrado)
   return (
-    <div className="flex flex-col container">
-      <div className="flex justify-between bg-gray-900 p-4 rounded-t-lg text-gray-200">
-        <div className="flex flex-col ">
-          <div className="flex"> <span className="flex flex-col text-blue-500 px-2">ID:{" "}</span> {FI?.FID}</div>
-          <div className="flex"><span className="flex flex-col text-blue-500 px-2">ORG:{" "}</span> {FI?.ORG}</div>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="flex flex-col container max-w-7xl mx-auto p-4 space-y-6">
+      <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-xl shadow-2xl text-gray-200">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {!trntype ? (
+            <>
+              <div className="flex items-center space-x-4 bg-gray-800/50 p-4 rounded-lg">
+                <FaMoneyBillWave className="text-3xl text-green-400" />
+                <div>
+                  <div className="text-sm text-gray-400">Total Créditos</div>
+                  <div className="text-2xl font-bold text-green-400">
+                    {formatarParaReal(totalCreditos)}
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4 bg-gray-800/50 p-4 rounded-lg">
+                <FaMoneyBillWave className="text-3xl text-red-400" />
+                <div>
+                  <div className="text-sm text-gray-400">Total Débitos</div>
+                  <div className="text-2xl font-bold text-red-400">
+                    {formatarParaReal(totalDebitos)}
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4 bg-gray-800/50 p-4 rounded-lg">
+                <FaChartLine className="text-3xl text-blue-400" />
+                <div>
+                  <div className="text-sm text-gray-400">Saldo Final</div>
+                  <div className={`text-2xl font-bold ${saldoFinal >= 0 ? "text-green-400" : "text-red-400"}`}>
+                    {formatarParaReal(saldoFinal)}
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center space-x-4 bg-gray-800/50 p-4 rounded-lg">
+                <MdAccountBalance className="text-3xl text-blue-400" />
+                <div>
+                  <div className="text-sm text-gray-400">ID</div>
+                  <div className="text-lg font-semibold">{FI?.FID}</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4 bg-gray-800/50 p-4 rounded-lg">
+                <FaChartLine className="text-3xl text-blue-400" />
+                <div>
+                  <div className="text-sm text-gray-400">Organização</div>
+                  <div className="text-lg font-semibold">{FI?.ORG}</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4 bg-gray-800/50 p-4 rounded-lg">
+                <FaMoneyBillWave className="text-3xl text-blue-400" />
+                <div>
+                  <div className="text-sm text-gray-400">Total</div>
+                  <div className={`text-2xl font-bold ${trntype === "CREDIT" ? "text-green-400" : "text-red-400"}`}>
+                    {totalValor}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
-        <button className="bg-blue-500 p-2 rounded-md" onClick={() =>  setTrntype("CREDIT")}>CREDIT</button>
-        <button className="bg-red-500 p-2 rounded-md" onClick={() =>  setTrntype("DEBIT")}>DEBIT</button>
-        <button className="bg-green-500 p-2 rounded-md" onClick={() =>  setTrntype("")}>TODOS</button>
-        <div className={`flex text-3xl text-white ${trntype === "CREDIT" ? "text-green-700" : "text-red-400"}`}>{trntype || "Todos"}</div>
-        <div className={`flex justify-end text-5xl mr-10 ${trntype === "CREDIT" ? "text-green-700" : "text-red-400"}`}> {`${!trntype ||'Total:' + totalValor}`}</div>
+        
+        <div className="flex justify-center space-x-4 mt-6">
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`px-6 py-3 rounded-lg font-medium flex items-center space-x-2 ${trntype === "CREDIT" ? "bg-green-500 text-white" : "bg-gray-700 text-gray-300"}`}
+            onClick={() => setTrntype("CREDIT")}>
+            <span>Créditos</span>
+          </motion.button>
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`px-6 py-3 rounded-lg font-medium flex items-center space-x-2 ${trntype === "DEBIT" ? "bg-red-500 text-white" : "bg-gray-700 text-gray-300"}`}
+            onClick={() => setTrntype("DEBIT")}>
+            <span>Débitos</span>
+          </motion.button>
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`px-6 py-3 rounded-lg font-medium flex items-center space-x-2 ${!trntype ? "bg-blue-500 text-white" : "bg-gray-700 text-gray-300"}`}
+            onClick={() => setTrntype("")}>
+            <span>Todos</span>
+          </motion.button>
+        </div>
       </div>
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr className="text-2xl ">
-            <th scope="col" className={`flex px-2 m-2 py-2 cursor-pointer rounded-lg text-white`}>
-
-       
-              TIPO</th>
-            <th scope="col" className="px-6 py-3">DATA</th>
-            <th scope="col" className="px-6 py-3">VALOR</th>
-            <th scope="col" className="px-6 py-3">TRNAMT</th>
-            <th scope="col" className="px-6 py-3">REFNUM</th>
-            <th scope="col" className="px-6 py-3">MEMORANDO</th>
-          </tr>
-        </thead>
-        <tbody className={`text-white ${trntype === "CREDIT" ? "text-green-800" : "text-red-900"}`}>
-          { filtro?.map((transaction: TransactionType) => (
-            <Transaction key={transaction.FITID} transaction={transaction} />
-          ))}
-  
-        </tbody>
-      </table>
-    </div>
+      <div className="bg-gray-900 rounded-xl overflow-hidden shadow-xl">
+        <table className="w-full text-sm divide-y divide-gray-800">
+          <thead className="bg-gray-800">
+            <tr>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <div className="flex items-center space-x-2">
+                  <span>Tipo</span>
+                  <IoMdArrowDropdown className="text-gray-400" />
+                </div>
+              </th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Data</th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Valor</th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">TRNAMT</th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">REFNUM</th>
+              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Memorando</th>
+            </tr>
+          </thead>
+          <AnimatePresence>
+            <motion.tbody
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className={`divide-y divide-gray-800 ${trntype === "CREDIT" ? "text-green-400" : "text-red-400"}`}>
+              {filtro?.map((transaction: TransactionType) => (
+                <motion.tr
+                  key={transaction.FITID}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2 }}>
+                  <Transaction transaction={transaction} />
+                </motion.tr>
+              ))}
+            </motion.tbody>
+          </AnimatePresence>
+        </table>
+      </div>
+   </motion.div>
   );
 }

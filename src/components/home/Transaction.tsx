@@ -1,6 +1,7 @@
 import { TransactionType } from "@/app/types/TransactionType";
 import { formatarData, formatarParaReal } from "@/helper/FormataReal";
 import React from "react";
+import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 export default function Transaction({
   transaction,
@@ -11,13 +12,23 @@ export default function Transaction({
   const data = formatarData(transaction?.DTPOSTED || "");
   const {TRNTYPE} = transaction || {};
   return (
-    <tr className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 ${TRNTYPE === 'DEBIT' ?"text-red-500":"" }`}>
-      <td className="px-6 py-4">{transaction?.TRNTYPE}</td>
-      <td>{data}</td>
-      <td>{formatarParaReal(parseFloat(transaction?.TRNAMT || "0"))}</td>
-      <td>{transaction?.FITID}</td>
-      <td>{transaction?.REFNUM}</td>
-      <td>{transaction?.MEMO}</td>
-    </tr>
+    <>
+      <td className="px-6 py-4">
+        <div className="flex items-center space-x-2">
+          {TRNTYPE === 'DEBIT' ? 
+            <FaArrowDown className="text-red-400" /> : 
+            <FaArrowUp className="text-green-400" />
+          }
+          <span>{transaction?.TRNTYPE}</span>
+        </div>
+      </td>
+      <td className="px-6 py-4">{data}</td>
+      <td className="px-6 py-4 font-medium">
+        {formatarParaReal(parseFloat(transaction?.TRNAMT || "0"))}
+      </td>
+      <td className="px-6 py-4 text-gray-400">{transaction?.FITID}</td>
+      <td className="px-6 py-4 text-gray-400">{transaction?.REFNUM}</td>
+      <td className="px-6 py-4 text-gray-400">{transaction?.MEMO}</td>
+    </>
   );
 }
