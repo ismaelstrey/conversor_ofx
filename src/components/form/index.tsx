@@ -2,21 +2,25 @@
 import { OFXResponse } from "@/app/types/TransactionType";
 import React, { useCallback, useEffect, useState } from "react";
 import Transactions from "../home/Transactions";
-import { salvaLocalStorage, ofx } from "@/services/indexDb";
+import { salvarDados, recuperarDados } from "@/services/indexDb";
 import { useDropzone } from 'react-dropzone';
 import { motion } from 'framer-motion';
 import { FiUpload } from 'react-icons/fi';
 
 const FileInputForm = () => {
-  const parseOfx = ofx && JSON.parse(ofx) || null;
-  // const [file, setFile] = useState<File | null>(null);
   const [dataOfx, setDataOfx] = useState<OFXResponse | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setDataOfx(parseOfx);
-  }, [parseOfx]);
+    const carregarDados = async () => {
+      const dadosSalvos = await recuperarDados('ofx');
+      if (typeof dadosSalvos === 'object') {
+        setDataOfx(dadosSalvos);
+      }
+    };
+    carregarDados();
+  }, []);
 
   const handleSubmit = async (selectedFile: File) => {
     setIsProcessing(true);
@@ -32,10 +36,9 @@ const FileInputForm = () => {
       });
 
       if (response.ok) {
-        const ofx = await response.json();
-        // const nomeDoArquivo = ofx.data?.header["Content-Disposition"].split(";")[2].split("=")[1];
-        salvaLocalStorage(ofx.data, 'ofx');
-        setDataOfx(ofx.data);
+        const ofxResponse = await response.json();
+        await salvarDados(ofxResponse.data, 'ofx');
+        setDataOfx(ofxResponse.data);
       } else {
         setError("Erro ao processar o arquivo. Por favor, tente novamente.");
       }
