@@ -13,7 +13,7 @@ interface DBSchema {
 
 const DB_CONFIG = {
   name: 'ofxConverterDB',
-  version: 1,
+  version: 2,
   store: 'ofxData'
 } as const;
 
