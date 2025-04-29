@@ -28,7 +28,7 @@ const initDB = async () => {
   });
 };
 
-export const salvarDados = async (data: any, key: string): Promise<void> => {
+export const salvarDados = async <T extends object>(data: T, key: string): Promise<void> => {
   try {
     const db = await initDB();
     const tx = db.transaction(DB_CONFIG.store, 'readwrite');
