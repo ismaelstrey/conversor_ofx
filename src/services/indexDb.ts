@@ -1,152 +1,79 @@
-import { OFXResponse } from "@/app/types/TransactionType";
+import { openDB } from 'idb';
+import { OFXResponse } from '@/app/types/TransactionType';
 
-interface IDBConfig {
-  dbName: string;
-  storeName: string;
-  version: number;
-}
-
-interface ChunkData {
-  id: string;
-  data: string;
-  index: number;
-  total: number;
-  timestamp: number;
-}
-
-const DB_CONFIG: IDBConfig = {
-  dbName: 'ofxConverterDB',
-  storeName: 'ofxData',
-  version: 2
-};
-
-const initDB = (): Promise<IDBDatabase> => {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_CONFIG.dbName, DB_CONFIG.version);
-
-    request.onerror = () => reject(request.error);
-    request.onsuccess = () => resolve(request.result);
-
-    request.onupgradeneeded = (event) => {
-      const db = (event.target as IDBOpenDBRequest).result;
-      if (!db.objectStoreNames.contains(DB_CONFIG.storeName)) {
-        const store = db.createObjectStore(DB_CONFIG.storeName, { keyPath: 'id' });
-        store.createIndex('timestamp', 'timestamp', { unique: false });
-        store.createIndex('index', 'index', { unique: false });
-      }
+interface DBSchema {
+  ofxData: {
+    key: string;
+    value: {
+      data: string;
+      timestamp: number;
     };
+  };
+}
+
+const DB_CONFIG = {
+  name: 'ofxConverterDB',
+  version: 1,
+  store: 'ofxData'
+} as const;
+
+const initDB = async () => {
+  return await openDB<DBSchema>(DB_CONFIG.name, DB_CONFIG.version, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains(DB_CONFIG.store)) {
+        const store = db.createObjectStore(DB_CONFIG.store, { keyPath: 'id' });
+        store.createIndex('timestamp', 'timestamp');
+      }
+    },
   });
 };
 
-const CHUNK_SIZE = 500000; // 500KB por chunk
-
-const salvarDados = async (data: string, key: string): Promise<void> => {
+export const salvarDados = async (data: any, key: string): Promise<void> => {
   try {
     const db = await initDB();
-    const transaction = db.transaction(DB_CONFIG.storeName, 'readwrite');
-    const store = transaction.objectStore(DB_CONFIG.storeName);
+    const tx = db.transaction(DB_CONFIG.store, 'readwrite');
+    const store = tx.objectStore(DB_CONFIG.store);
 
-    // Divide os dados em chunks
-    const chunks = [];
-    const totalChunks = Math.ceil(data.length / CHUNK_SIZE);
-    
-    for (let i = 0; i < totalChunks; i++) {
-      const start = i * CHUNK_SIZE;
-      const end = start + CHUNK_SIZE;
-      const chunkData: ChunkData = {
-        id: `${key}_chunk_${i}`,
-        data: data.slice(start, end),
-        index: i,
-        total: totalChunks,
-        timestamp: Date.now()
-      };
-      chunks.push(chunkData);
-    }
+    const dadosParaSalvar = {
+      id: key,
+      data: JSON.stringify(data),
+      timestamp: Date.now()
+    };
 
-    // Salva todos os chunks
-    await Promise.all(chunks.map(chunk => {
-      return new Promise<void>((resolve, reject) => {
-        const request = store.put(chunk);
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject(request.error);
-      });
-    }));
+    await store.put(dadosParaSalvar);
+    await tx.done;
   } catch (error) {
     console.error('Erro ao salvar dados:', error);
-    throw error;
+    throw new Error('Falha ao salvar os dados no IndexedDB');
   }
 };
 
-const recuperarDados = async (key: string): Promise<string | OFXResponse | null> => {
+export const recuperarDados = async (key: string): Promise<OFXResponse | null> => {
   try {
     const db = await initDB();
-    const transaction = db.transaction(DB_CONFIG.storeName, 'readonly');
-    const store = transaction.objectStore(DB_CONFIG.storeName);
+    const tx = db.transaction(DB_CONFIG.store, 'readonly');
+    const store = tx.objectStore(DB_CONFIG.store);
 
-    // Recupera todos os chunks do arquivo
-    const chunks: ChunkData[] = [];
-    let cursor = await new Promise<IDBCursorWithValue | null>((resolve, reject) => {
-      const request = store.openCursor();
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
+    const resultado = await store.get(key);
+    if (!resultado) return null;
 
-    while (cursor) {
-      const chunk = cursor.value as ChunkData;
-      if (chunk.id.startsWith(`${key}_chunk_`)) {
-        chunks.push(chunk);
-      }
-      cursor = await new Promise<IDBCursorWithValue | null>((resolve, reject) => {
-        cursor!.continue();
-        const request = cursor!.request;
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-      });
-    }
-
-    if (chunks.length === 0) return null;
-
-    // Ordena os chunks pelo índice e concatena os dados
-    chunks.sort((a, b) => a.index - b.index);
-    return chunks.map(chunk => chunk.data).join('');
+    return JSON.parse(resultado.data);
   } catch (error) {
     console.error('Erro ao recuperar dados:', error);
     return null;
   }
 };
 
-const deletarDados = async (key: string): Promise<void> => {
+export const limparDados = async (key: string): Promise<void> => {
   try {
     const db = await initDB();
-    const transaction = db.transaction(DB_CONFIG.storeName, 'readwrite');
-    const store = transaction.objectStore(DB_CONFIG.storeName);
+    const tx = db.transaction(DB_CONFIG.store, 'readwrite');
+    const store = tx.objectStore(DB_CONFIG.store);
 
-    return new Promise((resolve, reject) => {
-      const request = store.delete(key);
-      request.onsuccess = () => resolve();
-      request.onerror = () => reject(request.error);
-    });
-  } catch (error) {
-    console.error('Erro ao deletar dados:', error);
-    throw error;
-  }
-};
-
-const limparDados = async (): Promise<void> => {
-  try {
-    const db = await initDB();
-    const transaction = db.transaction(DB_CONFIG.storeName, 'readwrite');
-    const store = transaction.objectStore(DB_CONFIG.storeName);
-
-    return new Promise((resolve, reject) => {
-      const request = store.clear();
-      request.onsuccess = () => resolve();
-      request.onerror = () => reject(request.error);
-    });
+    await store.delete(key);
+    await tx.done;
   } catch (error) {
     console.error('Erro ao limpar dados:', error);
-    throw error;
+    throw new Error('Falha ao limpar os dados do IndexedDB');
   }
 };
-
-export { salvarDados, recuperarDados, deletarDados, limparDados };
