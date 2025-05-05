@@ -142,7 +142,7 @@ export default function Transactions({
       </div>   
 
       {viewMode === 'month' ? (
-        <div className="space-y-6">
+        <div className="flex flex-col gap-4">
           <TransactionChart transactions={filtrado || []}/>
           <FinancialCharts transactions={filtrado || []}/>
         </div>
