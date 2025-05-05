@@ -97,7 +97,7 @@ export default function TransactionChart({ transactions }: TransactionChartProps
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full h-[400px] bg-[#0F0F0F] p-4 rounded-lg shadow-lg"
+      className="w-full h-[400px] p-4 shadow-lg bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg"
     >
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart

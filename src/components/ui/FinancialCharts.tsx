@@ -104,7 +104,7 @@ export default function FinancialCharts({ transactions }: FinancialChartsProps) 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full h-[300px] bg-[#0F0F0F] p-4 rounded-lg shadow-lg"
+        className="w-full h-[300px] p-4 bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg shadow-lg"
       >
         <h3 className="text-gray-200 font-semibold mb-4">Distribuição de Transações</h3>
         <ResponsiveContainer width="100%" height="100%">
@@ -133,7 +133,7 @@ export default function FinancialCharts({ transactions }: FinancialChartsProps) 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="w-full h-[300px] bg-[#0F0F0F] p-4 rounded-lg shadow-lg"
+        className="w-full h-[300px] p-4 pb-10 bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg shadow-lg"
       >
         <h3 className="text-gray-200 font-semibold mb-4">Análise Mensal</h3>
         <ResponsiveContainer width="100%" height="100%">
@@ -168,7 +168,7 @@ export default function FinancialCharts({ transactions }: FinancialChartsProps) 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
-        className="w-full h-[300px] bg-[#0F0F0F] p-4 rounded-lg shadow-lg md:col-span-2"
+        className="w-full h-[300px] p-4 bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg shadow-lg md:col-span-2 pb-16"
       >
         <h3 className="text-gray-200 font-semibold mb-4">Padrões de Transação</h3>
         <ResponsiveContainer width="100%" height="100%">
