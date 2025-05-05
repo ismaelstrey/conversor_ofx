@@ -133,11 +133,19 @@ export default function FinancialCharts({ transactions }: FinancialChartsProps) 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
+        
         className="w-full h-[300px] p-4 pb-10 bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg shadow-lg"
       >
         <h3 className="text-gray-200 font-semibold mb-4">Análise Mensal</h3>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={processedData.monthlyData}>
+          <BarChart data={processedData.monthlyData} margin={
+            {
+              top: 20,
+              right: 10,
+              left: 40,
+              bottom: 5
+            }
+          }>
             <CartesianGrid strokeDasharray="3 3" stroke="#333" />
             <XAxis
               dataKey="month"
@@ -172,7 +180,14 @@ export default function FinancialCharts({ transactions }: FinancialChartsProps) 
       >
         <h3 className="text-gray-200 font-semibold mb-4">Padrões de Transação</h3>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={processedData.scatterData}>
+          <BarChart data={processedData.scatterData}
+          margin={{
+            top: 20,
+            right: 10,
+            left: 40,
+            bottom: 5
+          }}
+          >
             <CartesianGrid strokeDasharray="3 3" stroke="#333" />
             <XAxis
               dataKey="data"
