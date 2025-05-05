@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Permitir acesso a todas as páginas
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://conversor-ofx.vercel.app/sitemap.xml
