@@ -1,15 +1,14 @@
 'use client'
 import { FIType, TransactionType } from "@/app/types/TransactionType";
 import React, { useEffect } from "react";
-import Transaction from "./Transaction";
 import { formatarParaReal } from "@/helper/FormataReal";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion} from "framer-motion";
 import { FaMoneyBillWave, FaChartLine, FaList } from "react-icons/fa";
-import { IoMdArrowDropdown } from "react-icons/io";
 import { MdAccountBalance } from "react-icons/md";
 import { ExportButtons } from "@/components/ui/exportData";
 import { CiGrid32 } from "react-icons/ci";
-import { TransectionsMounth } from "./TransectionsMounth";
+import TransactionChart from "../ui/TransactionChart";
+import TransectionsList from "./TransectionsList";
 
 export default function Transactions({
   transactions,
@@ -21,13 +20,8 @@ export default function Transactions({
 
 
   const [trntype, setTrntype] = React.useState("");
-  const [filtro, setFiltro] = React.useState<TransactionType[]>([]);
   const [viewMode, setViewMode] = React.useState<'list' | 'month'>('list');
-
-  const filtrado = trntype ? transactions?.filter((transaction) => transaction.TRNTYPE == trntype) : transactions;
-
-
-  
+  const filtrado = trntype ? transactions?.filter((transaction) => transaction.TRNTYPE == trntype) : transactions;  
   // Cálculos financeiros
   const totalCreditos = transactions?.filter(t => t.TRNTYPE === "CREDIT").reduce((acc, t) => acc + parseFloat(t.TRNAMT), 0) || 0;
   const totalDebitos = transactions?.filter(t => t.TRNTYPE === "DEBIT").reduce((acc, t) => acc + parseFloat(t.TRNAMT), 0) || 0;
@@ -41,9 +35,7 @@ export default function Transactions({
     setTotalValor(formattedTotal);
   }, [soma])
 
-  useEffect(() => {
-    setFiltro(filtrado || []);
-  }, [filtrado, transactions])
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -149,45 +141,12 @@ export default function Transactions({
       </div>   
 
       {viewMode === 'month' ? (
-      <TransectionsMounth transection={filtrado || []}/>
+      // <TransectionsMounth transection={filtrado || []}/>
+      // <TransectionsList transections={filtrado || []} trntype={trntype}/>
+     <TransactionChart transactions={filtrado || []}/>    
       ) : (
-        <div className="bg-gray-900 rounded-xl overflow-hidden shadow-xl">
-          <table className="w-full text-sm divide-y divide-gray-800">
-          <thead className="bg-gray-800">
-            <tr>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                <div className="flex items-center space-x-2">
-                  <span>Tipo</span>
-                  <IoMdArrowDropdown className="text-gray-400" />
-                </div>
-              </th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Data</th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Valor</th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">TRNAMT</th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">REFNUM</th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Memorando</th>
-            </tr>
-          </thead>
-          <AnimatePresence>
-            <motion.tbody
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className={`divide-y divide-gray-800 ${trntype === "CREDIT" ? "text-green-400" : "text-red-400"}`}>
-              {filtro?.map((transaction: TransactionType) => (
-                <motion.tr
-                  key={transaction.FITID}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.2 }}>
-                  <Transaction transaction={transaction} />
-                </motion.tr>
-              ))}
-            </motion.tbody>
-          </AnimatePresence>
-        </table>
-      </div>
+        // <TransactionChart transactions={filtrado || []}/>    
+        <TransectionsList transections={filtrado || []} trntype={trntype}/> 
       )}
    </motion.div>
   );
