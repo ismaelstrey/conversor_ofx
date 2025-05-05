@@ -9,6 +9,7 @@ import { ExportButtons } from "@/components/ui/exportData";
 import { CiGrid32 } from "react-icons/ci";
 import TransactionChart from "../ui/TransactionChart";
 import TransectionsList from "./TransectionsList";
+import FinancialCharts from "../ui/FinancialCharts";
 
 export default function Transactions({
   transactions,
@@ -141,11 +142,11 @@ export default function Transactions({
       </div>   
 
       {viewMode === 'month' ? (
-      // <TransectionsMounth transection={filtrado || []}/>
-      // <TransectionsList transections={filtrado || []} trntype={trntype}/>
-     <TransactionChart transactions={filtrado || []}/>    
+        <div className="space-y-6">
+          <TransactionChart transactions={filtrado || []}/>
+          <FinancialCharts transactions={filtrado || []}/>
+        </div>
       ) : (
-        // <TransactionChart transactions={filtrado || []}/>    
         <TransectionsList transections={filtrado || []} trntype={trntype}/> 
       )}
    </motion.div>
