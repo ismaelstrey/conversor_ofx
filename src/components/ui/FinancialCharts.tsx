@@ -179,7 +179,7 @@ export default function FinancialCharts({ transactions }: FinancialChartsProps) 
               stroke="#666"
               tick={{ fill: '#666' }}
               tickFormatter={(value) => {
-                const [year, month, day] = value.split('-');
+                const [month, day] = value.split('-');
                 return `${day}/${month}`;
               }}
             />

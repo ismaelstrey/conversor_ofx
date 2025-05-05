@@ -19,11 +19,6 @@ interface ChartData {
 }
 
 export default function TransactionChart({ transactions }: TransactionChartProps) {
-    console.log('Transactions recebidas:', transactions);
-    if (!Array.isArray(transactions)) {
-      console.error('Transactions não é um array:', transactions);
-      return null;
-    }
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -61,10 +56,8 @@ export default function TransactionChart({ transactions }: TransactionChartProps
 
     if (!sortedTransactions.length) return [];
 
-    const firstDate = new Date(sortedTransactions[0].DTPOSTED);
-    const lastDate = new Date(sortedTransactions[sortedTransactions.length - 1].DTPOSTED);
-    const monthDiff = (lastDate.getFullYear() - firstDate.getFullYear()) * 12 + 
-                     (lastDate.getMonth() - firstDate.getMonth());
+    // const firstDate = new Date(sortedTransactions[0].DTPOSTED);
+    // const lastDate = new Date(sortedTransactions[sortedTransactions.length - 1].DTPOSTED);
 
     const groupedData = new Map<string, ChartData>();
 
@@ -131,7 +124,8 @@ export default function TransactionChart({ transactions }: TransactionChartProps
             stroke="#666"
             tick={{ fill: '#666' }}
             tickFormatter={(value) => {
-              const [year, month, day] = value.split('-');
+              const [, , day] = value.split('-');
+              const [, month] = value.split('-');
               return `${day}/${month}`;
             }}
             interval={0}
