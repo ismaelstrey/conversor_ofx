@@ -4,6 +4,7 @@ import "./globals.css";
 
 import Template from "@/components/template";
 import JsonLd from "./jsonld";
+import Footer from '@/components/ui/Footer';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   themeColor: "#0a0a0a",
   viewport: "width=device-width, initial-scale=1",
   alternates: {
-    canonical: "https://conversor-ofx.vercel.app"
+    canonical: "https://ofx.strey.com.br"
   }
 };
 
@@ -40,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
         <JsonLd />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZKM3FFEYPB"></script>
@@ -65,6 +66,7 @@ export default function RootLayout({
           <main role="main" className="min-h-screen">
             {children}
           </main>
+          <Footer />
         </Template>
       </body>
     </html>

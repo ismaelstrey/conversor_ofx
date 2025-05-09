@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { FiShield, FiCpu, FiDownload } from 'react-icons/fi';
 
 const About = () => {
@@ -8,17 +9,20 @@ const About = () => {
     {
       icon: <FiShield className="text-[#F3F821] text-4xl mb-4" />,
       title: 'Privacidade Garantida',
-      description: 'Seus dados financeiros permanecem seguros. Não armazenamos nenhuma informação em bancos de dados externos.'
+      description: 'Seus dados financeiros permanecem seguros. Não armazenamos nenhuma informação em bancos de dados externos.',
+      url:"/page/privacidade"
     },
     {
       icon: <FiCpu className="text-[#F3F821] text-4xl mb-4" />,
       title: 'Processamento Local',
-      description: 'Toda a conversão acontece diretamente no seu navegador, garantindo rapidez e segurança no processamento.'
+      description: 'Toda a conversão acontece diretamente no seu navegador, garantindo rapidez e segurança no processamento.',
+    url:"/page/privacidade"
     },
     {
       icon: <FiDownload className="text-[#F3F821] text-4xl mb-4" />,
       title: 'Download Imediato',
-      description: 'Após a conversão, baixe instantaneamente seu arquivo Excel, sem necessidade de espera ou armazenamento.'
+      description: 'Após a conversão, baixe instantaneamente seu arquivo Excel, sem necessidade de espera ou armazenamento.',
+      url:"/page/download"
     }
   ];
 
@@ -30,6 +34,7 @@ const About = () => {
         transition={{ duration: 0.6 }}
         className="text-center mb-12"
       >
+       
         <h2 className="text-3xl font-bold mb-4 text-white">
           Conversor OFX para Excel
         </h2>
@@ -48,13 +53,15 @@ const About = () => {
             transition={{ duration: 0.6, delay: index * 0.2 }}
             className="bg-[#1A1A1A] p-6 rounded-lg text-center hover:bg-[#242424] transition-colors"
           >
-            <div className="flex justify-center">{feature.icon}</div>
+         <Link href={feature.url}>
+         <div className="flex justify-center">{feature.icon}</div>
             <h3 className="text-xl font-semibold mb-3 text-white">
               {feature.title}
             </h3>
             <p className="text-gray-400">
               {feature.description}
             </p>
+         </Link>
           </motion.div>
         ))}
       </div>
