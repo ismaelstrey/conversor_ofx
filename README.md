@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# 🔄 Conversor OFX para Excel
 
-First, run the development server:
+[![Next.js](https://img.shields.io/badge/Next.js-13.5-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.0-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-10.16-ff69b4?style=for-the-badge&logo=framer)](https://www.framer.com/motion/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+<p align="center">
+Converta seus extratos bancários OFX para planilhas Excel de forma rápida, segura e totalmente offline!
+</p>
+
+</div>
+
+## 🌟 Características
+
+- ✨ Interface moderna e responsiva
+- 🔒 Processamento 100% local e seguro
+- 📊 Conversão precisa para Excel
+- 💾 Sem armazenamento em nuvem
+- 🚀 Rápido e eficiente
+
+## 🔄 Fluxo de Conversão
+
+```mermaid
+graph LR
+    A[Upload OFX] --> B[Processamento Local]
+    B --> C[Parsing XML]
+    C --> D[Extração de Dados]
+    D --> E[Geração Excel]
+    E --> F[Download]
+    style A fill:#F3F821,stroke:#333,stroke-width:2px
+    style B fill:#0F0F0F,stroke:#333,stroke-width:2px,color:#fff
+    style C fill:#0F0F0F,stroke:#333,stroke-width:2px,color:#fff
+    style D fill:#0F0F0F,stroke:#333,stroke-width:2px,color:#fff
+    style E fill:#0F0F0F,stroke:#333,stroke-width:2px,color:#fff
+    style F fill:#F3F821,stroke:#333,stroke-width:2px
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛡️ Segurança e Privacidade
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Processamento Local**: Todos os dados são processados diretamente no seu navegador
+- **Sem Armazenamento**: Nenhuma informação é enviada para servidores externos
+- **Privacidade Garantida**: Processamento totalmente offline
+- **Segurança Total**: Tecnologias modernas de processamento client-side
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Como Usar
 
-## Learn More
+1. Acesse a aplicação
+2. Faça upload do seu arquivo OFX
+3. Aguarde o processamento automático
+4. Baixe sua planilha Excel convertida
 
-To learn more about Next.js, take a look at the following resources:
+## 💻 Desenvolvimento Local
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Clone o repositório
+git clone https://seu-repositorio/conversor-ofx.git
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Instale as dependências
+npm install
 
-## Deploy on Vercel
+# Inicie o servidor de desenvolvimento
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠️ Tecnologias
+
+- **Next.js**: Framework React para produção
+- **TypeScript**: Tipagem estática para JavaScript
+- **TailwindCSS**: Framework CSS utilitário
+- **Framer Motion**: Biblioteca de animações
+- **xml2js**: Parser XML para processamento OFX
+- **ExcelJS**: Geração de arquivos Excel
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+<p align="center">
+Feito com 💛 para simplificar sua vida financeira
+</p>
