@@ -3,7 +3,7 @@
 import LinkHome from '@/components/ui/LinkHome';
 import { motion } from 'framer-motion';
 import { FaShieldAlt, FaLock, FaUserLock } from 'react-icons/fa';
-import { MdSecurity, MdPrivacyTip } from 'react-icons/md';
+import { MdSecurity } from 'react-icons/md';
 
 const PrivacyPage = () => {
   const fadeInUp = {
