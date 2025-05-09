@@ -56,7 +56,7 @@ graph LR
 
 ```bash
 # Clone o repositório
-git clone https://seu-repositorio/conversor-ofx.git
+git clone https://github.com/ismaelstrey/conversor_ofx.git
 
 # Instale as dependências
 npm install
