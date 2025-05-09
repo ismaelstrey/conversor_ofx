@@ -5,4 +5,4 @@ Allow: /
 Disallow: /api/
 
 # Sitemap
-Sitemap: https://conversor-ofx.vercel.app/sitemap.xml
+Sitemap: https://ofx.strey.com.br/sitemap.xml
